@@ -1,9 +1,12 @@
 ---
 
-- name: ansible module dependencies
+- name: dependencies
   apt:
-    package=python-psycopg2
+    package="{{ item }}"
     state=present
+  with_items:
+    - python-psycopg2
+    - expect
 
 - name: package
   apt:
@@ -42,10 +45,9 @@
   notify: restart uwsgi
 
 - name: graphite wsgi symlink
-  file:
-    src=/usr/share/graphite-web/graphite.wsgi
-    dest=/usr/share/graphite-web/wsgi.py
-    state=link
+  shell: "cd /usr/share/graphite-web; ln -s graphite.wsgi wsgi.py"
+  args:
+    creates: /usr/share/graphite-web/wsgi.py
   notify: restart uwsgi
 
 - name: postgres db
@@ -61,4 +63,16 @@
   sudo_user: postgres
 
 - name: syncdb
-  shell: graphite-manage syncdb
+  shell: graphite-manage syncdb --noinput
+
+- name: check for admin user
+  shell: "graphite-manage inspectdb | grep account_mygraph"
+  register: admin_user
+  ignore_errors: yes
+
+- name: admin user
+  shell: graphite-manage createsuperuser --username=admin --email=root@localhost --noinput
+  when: admin_user.rc != 0
+
+- name: admin password
+  shell: "expect -c 'spawn graphite-manage changepassword admin; sleep 1; expect \"Password: \" { send \"admin\n\"  }; expect \"Password (again): \" { send \"admin\n\" }; expect eof'"
