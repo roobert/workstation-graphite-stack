@@ -7,5 +7,5 @@
   roles:
     - nginx
     - uwsgi
-    - graphite-web
     - graphite-carbon
+    - graphite-web

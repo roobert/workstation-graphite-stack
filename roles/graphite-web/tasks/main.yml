@@ -41,6 +41,13 @@
     state=link
   notify: restart uwsgi
 
+- name: graphite wsgi symlink
+  file:
+    src=/usr/share/graphite-web/graphite.wsgi
+    dest=/usr/share/graphite-web/wsgi.py
+    state=link
+  notify: restart uwsgi
+
 - name: postgres db
   postgresql_db:
     name=graphite
