@@ -76,3 +76,9 @@
 
 - name: admin password
   shell: "expect -c 'spawn graphite-manage changepassword admin; sleep 1; expect \"Password: \" { send \"admin\n\"  }; expect \"Password (again): \" { send \"admin\n\" }; expect eof'"
+
+- name: dnsmasq
+  copy:
+    src=dnsmasq/sensu.localhost
+    dest=/etc/NetworkManager/dnsmasq.d/graphite.localhost
+  notify: restart network-manager
