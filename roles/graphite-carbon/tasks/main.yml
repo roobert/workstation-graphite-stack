@@ -1,0 +1,23 @@
+---
+
+- name: package
+  apt:
+    package=graphite-carbon
+    state=present
+
+- name: default
+  copy:
+    src=default/graphite-carbon
+    dest=/etc/default/graphite-carbon
+
+- name: config
+  copy:
+    src=carbon.conf
+    dest=/etc/carbon/carbon.conf
+  notify: restart carbon-cache
+
+- name: service
+  service:
+    name=carbon-cache
+    state=started
+    enabled=yes

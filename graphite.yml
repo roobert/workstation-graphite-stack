@@ -1,0 +1,11 @@
+---
+
+- name: deploy graphite
+  hosts: localhost
+  connection: local
+  sudo: true
+  roles:
+    - nginx
+    - uwsgi
+    - graphite-web
+    - graphite-carbon

@@ -1,0 +1,9 @@
+---
+
+- name: package
+  apt:
+    package="{{ item }}"
+    state=present
+  with_items:
+    - nginx
+    - uwsgi-plugin-python
