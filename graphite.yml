@@ -5,6 +5,7 @@
   connection: local
   sudo: true
   roles:
+    - postgresql
     - uwsgi
     - nginx
     - graphite-carbon
