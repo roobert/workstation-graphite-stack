@@ -5,7 +5,7 @@
   connection: local
   sudo: true
   roles:
-    - nginx
     - uwsgi
+    - nginx
     - graphite-carbon
     - graphite-web
