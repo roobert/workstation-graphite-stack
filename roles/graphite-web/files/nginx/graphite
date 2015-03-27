@@ -1,5 +1,6 @@
 server {
   listen 80;
+  server_name graphite.* graphite;
 
   charset utf-8;
   access_log /var/log/nginx/graphite.access.log;

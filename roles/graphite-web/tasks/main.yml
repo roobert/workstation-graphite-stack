@@ -79,6 +79,6 @@
 
 - name: dnsmasq
   copy:
-    src=dnsmasq/sensu.localhost
+    src=dnsmasq/graphite.localhost
     dest=/etc/NetworkManager/dnsmasq.d/graphite.localhost
   notify: restart network-manager
